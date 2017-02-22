@@ -1,4 +1,3 @@
-// Depth.cpp : コンソール アプリケーションのエントリ ポイントを定義します。
 // This source code is licensed under the MIT license. Please see the License in License.txt.
 // "This is preliminary software and/or hardware and APIs are preliminary and subject to change."
 //
@@ -25,156 +24,7 @@
 #include <math.h>
 
 
-
-/*録音用の変数関数もろもろ*/
-
-/*
-
-
-#pragma comment (lib, "winmm.lib")
-
-BOOL WriteWaveFile(LPTSTR lpszFileName, LPWAVEFORMATEX lpwf, LPBYTE lpWaveData, DWORD dwDataSize);
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-static LPBYTE       lpWaveData = NULL;
-static HWAVEIN      hwi = NULL;
-static WAVEHDR      wh = {0};
-static WAVEFORMATEX wf = {0};
-static BOOL         bPlayMediaFile = FALSE; 
-
-switch (uMsg) {
-
-case WM_CREATE: {
-DWORD dwRecordSecond = 30;
-DWORD dwDataSize;
-
-if (bPlayMediaFile) {
-mciSendString(TEXT("open sample.mid alias bgm"), NULL, 0, NULL);
-mciSendString(TEXT("play bgm"), NULL, 0, NULL);
-}
-
-wf.wFormatTag      = WAVE_FORMAT_PCM;
-wf.nChannels       = 1;
-wf.nSamplesPerSec  = 22050;
-wf.wBitsPerSample  = 8;
-wf.nBlockAlign     = wf.wBitsPerSample / 8 * wf.nChannels;
-wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
-
-if (waveInOpen(&hwi, 0, &wf, (DWORD)hwnd, 0, CALLBACK_WINDOW) != MMSYSERR_NOERROR) {
-MessageBox(NULL, TEXT("WAVEデバイスのオープンに失敗しました。"), NULL, MB_ICONWARNING);
-return -1;
-}
-
-dwDataSize = wf.nAvgBytesPerSec * dwRecordSecond;
-lpWaveData = (LPBYTE)HeapAlloc(GetProcessHeap(), 0, dwDataSize);
-
-wh.lpData         = (LPSTR)lpWaveData;
-wh.dwBufferLength = dwDataSize;
-wh.dwFlags        = 0;
-
-waveInPrepareHeader(hwi, &wh, sizeof(WAVEHDR));
-waveInAddBuffer(hwi, &wh, sizeof(WAVEHDR));
-waveInStart(hwi);
-
-SetTimer(hwnd, 1, 200, NULL);
-
-return 0;
-}
-
-case MM_WIM_DATA:
-MessageBox(NULL, TEXT("バッファが録音データで一杯になりました。"), TEXT("OK"), MB_OK);
-return 0;
-
-case WM_TIMER: {
-TCHAR  szBuf[256];
-DWORD  dwSecond;
-MMTIME mmt;
-
-mmt.wType = TIME_SAMPLES;
-waveInGetPosition(hwi, &mmt, sizeof(MMTIME));
-
-dwSecond = mmt.u.sample / wf.nSamplesPerSec;
-
-wsprintf(szBuf, TEXT("%02d:%02d"), dwSecond / 60, dwSecond % 60);
-SetWindowText(hwnd, szBuf);
-
-return 0;
-}
-
-case WM_DESTROY:
-if (bPlayMediaFile) {
-mciSendString(TEXT("stop bgm"), NULL, 0, NULL);
-mciSendString(TEXT("close bgm"), NULL, 0, NULL);
-}
-
-if (hwi != NULL) {
-MMTIME mmt;
-
-mmt.wType = TIME_BYTES;
-waveInGetPosition(hwi, &mmt, sizeof(MMTIME));
-
-waveInReset(hwi);
-waveInUnprepareHeader(hwi, &wh, sizeof(WAVEHDR));		
-waveInClose(hwi);
-
-KillTimer(hwnd, 1);
-
-WriteWaveFile(TEXT("record.wav"), &wf, lpWaveData, mmt.u.cb);
-WriteWaveFile(TEXT("record2.wav"), &wf, lpWaveData, mmt.u.cb);
-}
-
-if (lpWaveData != NULL)
-HeapFree(GetProcessHeap(), 0, lpWaveData);
-
-PostQuitMessage(0);
-
-return 0;
-
-default:
-break;
-
-}
-
-return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-
-BOOL WriteWaveFile(LPTSTR lpszFileName, LPWAVEFORMATEX lpwf, LPBYTE lpWaveData, DWORD dwDataSize)
-{
-HMMIO    hmmio;
-MMCKINFO mmckRiff;
-MMCKINFO mmckFmt;
-MMCKINFO mmckData;
-
-hmmio = mmioOpen(lpszFileName, NULL, MMIO_CREATE | MMIO_WRITE);
-if (hmmio == NULL)
-return FALSE;
-
-mmckRiff.fccType = mmioStringToFOURCC(TEXT("WAVE"), 0);
-mmioCreateChunk(hmmio, &mmckRiff, MMIO_CREATERIFF);
-
-mmckFmt.ckid = mmioStringToFOURCC(TEXT("fmt "), 0);
-mmioCreateChunk(hmmio, &mmckFmt, 0);
-mmioWrite(hmmio, (char *)lpwf, sizeof(PCMWAVEFORMAT));
-mmioAscend(hmmio, &mmckFmt, 0);
-
-mmckData.ckid = mmioStringToFOURCC(TEXT("data"), 0);
-mmioCreateChunk(hmmio, &mmckData, 0);
-mmioWrite(hmmio, (char *)lpWaveData, dwDataSize);
-mmioAscend(hmmio, &mmckData, 0);
-
-mmioAscend(hmmio, &mmckRiff, 0);
-mmioClose(hmmio, 0);
-
-return TRUE;
-}
-*/
-
-/*録音用の変数関数もろもろ*/
-
-
-/*顔認識用の関数もろもろ*/
+/* FOR FACE RECOGNITION */
 // Quote from Kinect for Windows SDK v2.0 Developer Preview - Samples/Native/FaceBasics-D2D, and Partial Modification
 // ExtractFaceRotationInDegrees is: Copyright (c) Microsoft Corporation. All rights reserved.
 inline void ExtractFaceRotationInDegrees( const Vector4* pQuaternion, int* pPitch, int* pYaw, int* pRoll )
@@ -190,10 +40,8 @@ inline void ExtractFaceRotationInDegrees( const Vector4* pQuaternion, int* pPitc
 	*pRoll = static_cast<int>( std::atan2( 2 * ( x * y + w * z ), w * w + x * x - y * y - z * z ) / M_PI * 180.0f );
 }
 
-/*顔認識用の関数もろもろ*/
 
-
-/*UDP送信用の関数もろもろ*/
+/* FOR UDP CONNECTION */
 
 int wind;
 int flag_soc = 0;
@@ -274,9 +122,6 @@ int flag_soc = 0;
 	}
 
 
-/*UDP送信用の関数もろもろ*/
-
-
 template<class Interface>
 inline void SafeRelease( Interface *& pInterfaceToRelease )
 {
@@ -287,12 +132,14 @@ inline void SafeRelease( Interface *& pInterfaceToRelease )
 }
 
 
+/* MAIN FUNCTION */
+
 int _tmain( int argc, _TCHAR* argv[] )
 {
 
 	cv::setUseOptimized( true );
 
-	/*録音ファイル名を日付にする設定*/
+	/*TO NAME FILENAME WITH CURRENT DATE*/
 	char time_buff[50] = "";
 	time_t now = time(NULL);
 	struct tm pnow;
@@ -303,7 +150,6 @@ int _tmain( int argc, _TCHAR* argv[] )
 
 	//std::ofstream outputfile("test.txt");
 	std::ofstream outputfile(time_buff);
-	//WaveFile audioFile, audioFile2;
 	std::vector<float> audioBuffer;
 	UINT subFrameLengthInBytes;
 
@@ -454,7 +300,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 		return -1;
 	}
 
-	//bufferの作成
+	//BUFFER FOR RECORDING
 	audioBuffer.resize( subFrameLengthInBytes / sizeof( float ) );
 	//audioFile.Open( "kinect_audio_a.wav" );
 	//audioFile2.Open( "kinect_audio_b.wav" );
@@ -503,6 +349,8 @@ int _tmain( int argc, _TCHAR* argv[] )
 	property[7] = "LookingAway";
 
 
+	/* MAIN LOOP */
+
 	while( 1 ){
 		//while (GetMessage(&msg, NULL, 0, 0) > 0){
 		//TranslateMessage(&msg);
@@ -515,19 +363,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 		IColorFrame* pColorFrame = nullptr;
 		IBodyIndexFrame* pBodyIndexFrame = nullptr;
 		IBodyFrame* pBodyFrame = nullptr;
-		//IAudioBeamFrameList* pAudioFrameList = nullptr;
 		ComPtr<IAudioBeamFrameList> pAudioFrameList;
-		//IAudioBeamFrameList* pAudioFrameList2 = nullptr;
-		//ComPtr<IAudioBeamFrameList> audioBeamFrameList;
-		/*
-		hResult = pDepthReader->AcquireLatestFrame( &pDepthFrame );
-		if( SUCCEEDED( hResult ) ){
-		hResult = pDepthFrame->AccessUnderlyingBuffer( &bufferSize, reinterpret_cast<UINT16**>( &bufferMat.data ) );
-		if( SUCCEEDED( hResult ) ){
-		bufferMat.convertTo( depthMat, CV_8U, -255.0f / 8000.0f, 255.0f );
-		}
-		}
-		*/
 
 		/****** COLOR FRAME ******/
 
@@ -584,7 +420,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 			hResult = pBodyFrame->GetAndRefreshBodyData (BODY_COUNT, pBody);
 			if(SUCCEEDED(hResult)){
 
-				//画面を毎フレーム黒く塗りつぶす
+				//COLOR EACH FRAME BLACK
 				cv::rectangle(handcoord_img, cv::Point(0,0), cv::Point(960, 540), cv::Scalar(0,0,0), -1, CV_AA);
 
 				for (count = 0; count < BODY_COUNT; count++){
@@ -701,7 +537,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 						}
 						send_UDP(abs(amount.Y), 3);
 					}
-				}//for文
+				}//for loop
 
 				cv::resize( bufferMat_color, bodyMat, cv::Size(), 0.5, 0.5 );
 
@@ -849,7 +685,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 								pAudioBeam->get_BeamAngleConfidence( &confidence ); // confidence [0.0f, 1.0f]
 
 
-								//画面を毎フレーム黒く塗りつぶす
+								//COLOR EACH FRAME BLACK
 								cv::rectangle(judge_img, cv::Point(0,0), cv::Point(500, 500), cv::Scalar(0,0,0), -1, CV_AA);
 								cv::rectangle(rate_img, cv::Point(0,0), cv::Point(500, 500), cv::Scalar(0,0,0), -1, CV_AA);
 
