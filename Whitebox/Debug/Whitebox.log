@@ -1,0 +1,39 @@
+﻿  stdafx.cpp
+  main.cpp
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(820): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
+          c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(720) : definition of 'count' ignored
+          c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(389) : definition of 'count' used
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(822): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
+          c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(720) : definition of 'count' ignored
+          c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(389) : definition of 'count' used
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(822): warning C4018: '<' : signed/unsigned mismatch
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(873): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(893): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(903): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(904): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(910): warning C4018: '<' : signed/unsigned mismatch
+c:\users\daisuke\documents\visual studio 2012\projects\whitebox\whitebox\main.cpp(921): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+main.obj : error LNK2019: unresolved external symbol _GetDefaultKinectSensor@4 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall cv::Exception::Exception(int,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,int)" (??0Exception@cv@@QAE@HABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00H@Z) referenced in function "public: class cv::Vec<unsigned char,3> & __thiscall cv::Mat::at<class cv::Vec<unsigned char,3> >(int,int)" (??$at@V?$Vec@E$02@cv@@@Mat@cv@@QAEAAV?$Vec@E$02@1@HH@Z)
+main.obj : error LNK2019: unresolved external symbol "public: virtual __thiscall cv::Exception::~Exception(void)" (??1Exception@cv@@UAE@XZ) referenced in function "public: class cv::Vec<unsigned char,3> & __thiscall cv::Mat::at<class cv::Vec<unsigned char,3> >(int,int)" (??$at@V?$Vec@E$02@cv@@@Mat@cv@@QAEAAV?$Vec@E$02@1@HH@Z)
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::error(class cv::Exception const &)" (?error@cv@@YAXABVException@1@@Z) referenced in function "public: class cv::Vec<unsigned char,3> & __thiscall cv::Mat::at<class cv::Vec<unsigned char,3> >(int,int)" (??$at@V?$Vec@E$02@cv@@@Mat@cv@@QAEAAV?$Vec@E$02@1@HH@Z)
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::fastFree(void *)" (?fastFree@cv@@YAXPAX@Z) referenced in function "public: __thiscall cv::Mat::~Mat(void)" (??1Mat@cv@@QAE@XZ)
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::setUseOptimized(bool)" (?setUseOptimized@cv@@YAX_N@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall cv::_InputArray::_InputArray(class cv::Mat const &)" (??0_InputArray@cv@@QAE@ABVMat@1@@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall cv::_OutputArray::_OutputArray(class cv::Mat &)" (??0_OutputArray@cv@@QAE@AAVMat@1@@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: static class cv::MatExpr __cdecl cv::Mat::zeros(int,int,int)" (?zeros@Mat@cv@@SA?AVMatExpr@2@HHH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: void __thiscall cv::Mat::create(int,int const *,int)" (?create@Mat@cv@@QAEXHPBHH@Z) referenced in function "public: void __thiscall cv::Mat::create(int,int,int)" (?create@Mat@cv@@QAEXHHH@Z)
+main.obj : error LNK2019: unresolved external symbol "public: void __thiscall cv::Mat::deallocate(void)" (?deallocate@Mat@cv@@QAEXXZ) referenced in function "public: void __thiscall cv::Mat::release(void)" (?release@Mat@cv@@QAEXXZ)
+main.obj : error LNK2019: unresolved external symbol "public: void __thiscall cv::Mat::copySize(class cv::Mat const &)" (?copySize@Mat@cv@@QAEXABV12@@Z) referenced in function "public: __thiscall cv::Mat::Mat(class cv::Mat const &)" (??0Mat@cv@@QAE@ABV01@@Z)
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::rectangle(class cv::Mat &,class cv::Point_<int>,class cv::Point_<int>,class cv::Scalar_<double> const &,int,int,int)" (?rectangle@cv@@YAXAAVMat@1@V?$Point_@H@1@1ABV?$Scalar_@N@1@HHH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::rectangle(class cv::Mat &,class cv::Rect_<int>,class cv::Scalar_<double> const &,int,int,int)" (?rectangle@cv@@YAXAAVMat@1@V?$Rect_@H@1@ABV?$Scalar_@N@1@HHH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::circle(class cv::Mat &,class cv::Point_<int>,int,class cv::Scalar_<double> const &,int,int,int)" (?circle@cv@@YAXAAVMat@1@V?$Point_@H@1@HABV?$Scalar_@N@1@HHH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "int __cdecl cv::_interlockedExchangeAdd(int *,int)" (?_interlockedExchangeAdd@cv@@YAHPAHH@Z) referenced in function "public: __thiscall cv::Mat::Mat(class cv::Mat const &)" (??0Mat@cv@@QAE@ABV01@@Z)
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::resize(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::Size_<int>,double,double,int)" (?resize@cv@@YAXABV_InputArray@1@ABV_OutputArray@1@V?$Size_@H@1@NNH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::namedWindow(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,int)" (?namedWindow@cv@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::destroyAllWindows(void)" (?destroyAllWindows@cv@@YAXXZ) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "int __cdecl cv::waitKey(int)" (?waitKey@cv@@YAHH@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "void __cdecl cv::imshow(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class cv::_InputArray const &)" (?imshow@cv@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV_InputArray@1@@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol _CreateFaceFrameSource@20 referenced in function _main
+c:\users\daisuke\documents\visual studio 2012\Projects\Whitebox\Debug\Whitebox.exe : fatal error LNK1120: 22 unresolved externals
