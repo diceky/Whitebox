@@ -473,10 +473,11 @@ int _tmain( int argc, _TCHAR* argv[] )
 
 
 						if(SUCCEEDED(hResult)){
+							/* TIMESTAMP */
 							time_t now2 = time(NULL);
 							struct tm pnow2;
 							localtime_s(&pnow2, &now2);
-							sprintf_s(time_buff, 50, "%04d%02d%02d_%02d%02d%02d", pnow2.tm_year + 1900, pnow2.tm_mon + 1, pnow2.tm_mday, pnow2.tm_hour, pnow2.tm_min, pnow2.tm_sec);
+							sprintf_s(time_buff, 50, "%04d-%02d-%02d %02d:%02d:%02d", pnow2.tm_year + 1900, pnow2.tm_mon + 1, pnow2.tm_mday, pnow2.tm_hour, pnow2.tm_min, pnow2.tm_sec);
 							outputfileBody << time_buff << ",";
 
 							//LEFT HAND!
@@ -612,6 +613,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 					if( SUCCEEDED( hResult ) && pFaceResult != nullptr ){
 						std::vector<std::string> result;
 
+
 						// Face Point
 						PointF facePoint[FacePointType::FacePointType_Count];
 						hResult = pFaceResult->GetFacePointsInColorSpace( FacePointType::FacePointType_Count, facePoint );
@@ -743,7 +745,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 										time_t now3 = time(NULL);
 										struct tm pnow3;
 										localtime_s(&pnow3, &now3);
-										sprintf_s(time_buff, 50, "%04d%02d%02d_%02d%02d%02d", pnow3.tm_year + 1900, pnow3.tm_mon + 1, pnow3.tm_mday, pnow3.tm_hour, pnow3.tm_min, pnow3.tm_sec);
+										sprintf_s(time_buff, 50, "%04d-%02d-%02d %02d:%02d:%02d", pnow3.tm_year + 1900, pnow3.tm_mon + 1, pnow3.tm_mday, pnow3.tm_hour, pnow3.tm_min, pnow3.tm_sec);
 										outputfileAudio << time_buff << ",";
 
 										volume_flag = 1;
@@ -760,7 +762,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 										time_t now4 = time(NULL);
 										struct tm pnow4;
 										localtime_s(&pnow4, &now4);
-										sprintf_s(time_buff, 50, "%04d%02d%02d_%02d%02d%02d", pnow4.tm_year + 1900, pnow4.tm_mon + 1, pnow4.tm_mday, pnow4.tm_hour, pnow4.tm_min, pnow4.tm_sec);
+										sprintf_s(time_buff, 50, "%04d-%02d-%02d %02d:%02d:%02d", pnow4.tm_year + 1900, pnow4.tm_mon + 1, pnow4.tm_mday, pnow4.tm_hour, pnow4.tm_min, pnow4.tm_sec);
 										outputfileAudio << time_buff << ",";
 
 										volume_flag = 2;

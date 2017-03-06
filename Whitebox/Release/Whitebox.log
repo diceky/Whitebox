@@ -1,17 +1,19 @@
 ﻿  main-forTwo.cpp
-main-forTwo.cpp(701): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
-          main-forTwo.cpp(600) : definition of 'count' ignored
-          main-forTwo.cpp(255) : definition of 'count' used
-main-forTwo.cpp(703): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
-          main-forTwo.cpp(600) : definition of 'count' ignored
-          main-forTwo.cpp(255) : definition of 'count' used
-main-forTwo.cpp(703): warning C4018: '<' : signed/unsigned mismatch
-main-forTwo.cpp(754): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-main-forTwo.cpp(774): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+main-forTwo.cpp(706): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
+          main-forTwo.cpp(604) : definition of 'count' ignored
+          main-forTwo.cpp(253) : definition of 'count' used
+main-forTwo.cpp(708): warning C4258: 'count' : definition from the for loop is ignored; the definition from the enclosing scope is used
+          main-forTwo.cpp(604) : definition of 'count' ignored
+          main-forTwo.cpp(253) : definition of 'count' used
+main-forTwo.cpp(708): warning C4018: '<' : signed/unsigned mismatch
+main-forTwo.cpp(756): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+main-forTwo.cpp(758): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+main-forTwo.cpp(773): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+main-forTwo.cpp(775): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
 main-forTwo.cpp(784): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
 main-forTwo.cpp(785): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-main-forTwo.cpp(791): warning C4018: '<' : signed/unsigned mismatch
-main-forTwo.cpp(802): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+main-forTwo.cpp(790): warning C4018: '<' : signed/unsigned mismatch
+main-forTwo.cpp(801): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
   Generating code
   Finished generating code
   Whitebox.vcxproj -> C:\Users\Daisuke\Documents\GitHub\Whitebox\Release\Whitebox.exe
