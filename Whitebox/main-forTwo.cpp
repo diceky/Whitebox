@@ -68,8 +68,9 @@ int flag_soc = 0;
 
 		memset((char *)&sin, 0, sizeof(sin));
 		sin.sin_family = AF_INET;
-		//sin.sin_addr.s_addr = inet_addr("127.0.0.1");  //send localhost UDP to Unity
-		sin.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
+		//sin.sin_addr.s_addr = inet_addr("127.0.0.1");  //send UDP to localhost Unity
+		sin.sin_addr.s_addr = inet_addr("131.113.136.249"); //send UDP to remote Unity
+		//sin.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
 		sin.sin_port = htons(port);
 
 
@@ -77,8 +78,10 @@ int flag_soc = 0;
 		memset((char *)&sin2, 0, sizeof(sin2));
 		sin2.sin_family = AF_INET;
 		//sin2.sin_addr.s_addr = inet_addr("127.0.0.1");  //send localhost UDP to Unity
-		sin2.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
-		sin2.sin_port = htons(8888);
+		sin2.sin_addr.s_addr = inet_addr("131.113.136.249"); //send UDP to remote Unity
+		sin2.sin_port = htons(54242);//send UDP to remote Unity
+		//sin2.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
+		//sin2.sin_port = htons(8888);//send UDP to Arduino
 		bind(s, (struct sockaddr*)&sin2, sizeof(sin2));
 		return s;
 	}
@@ -97,13 +100,14 @@ int flag_soc = 0;
 	SOCKADDR_IN g_sin;
 	SOCKET s;
 
-	int send_UDP(float wi, int who, int id)
+	int send_UDP(float wi, int who, int id, int total)
 	{
 		
 		if (flag_soc == 0) {
 			InitSockets();
-			//s = ConnectTo("127.0.0.1", 7777, g_sin);  //send UDP to Unity
-			s = ConnectTo("131.113.137.92", 8888, g_sin); //send UDP to Arduino
+			//s = ConnectTo("127.0.0.1", 7777, g_sin);  //send UDP to localhost Unity
+			s = ConnectTo("131.113.136.249", 54242, g_sin);  //send UDP to remote Unity
+			//s = ConnectTo("131.113.137.92", 8888, g_sin); //send UDP to Arduino
 			flag_soc = 1;
 			if (s == SOCKET_ERROR)
 			{
@@ -113,7 +117,7 @@ int flag_soc = 0;
 		}
 
 			char buff[30];
-			sprintf_s(buff,"%d,%f,%d",id, wi, who);// id 1:volume 2:speaking_rate 3:leanY	who 1:A 2:B
+			sprintf_s(buff,"%d,%f,%d,%d",id, wi, who, total);// id 1:volume 2:speaking_count 3:leanY	who 1:A 2:B
 			SendTo(buff, s, g_sin);
 
 		return 0;
@@ -576,11 +580,11 @@ int _tmain( int argc, _TCHAR* argv[] )
 						if( SUCCEEDED( hResult ) ){
 							if(myIndex==2){
 								std::cout << "A "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
-								send_UDP(abs(amount.Y),1,3);
+								send_UDP(abs(amount.Y),1,3,0);
 							}
 							else if(myIndex==1){
 								std::cout << "B "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
-								send_UDP(abs(amount.Y),2,3);
+								send_UDP(abs(amount.Y),2,3,0);
 							}
 							outputfileBody << ","<< amount.X << "," << amount.Y << std::endl;
 						}
@@ -755,7 +759,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 										total_speak_count++;
 										cv::circle(judge_img, cv::Point(375, 250), renormalized_energy*110, cv::Scalar(0,200,0), -1, CV_AA);//Green
 										//audioFile.Write( &audioBuffer[0], subFrameLengthInBytes );
-										send_UDP(count_a, 1, 2);
+										send_UDP(count_a, 2, 2, total_speak_count);
 									}
 									else if(angle * 180.0f / M_PI < -5){
 										/*timestamp*/
@@ -772,7 +776,7 @@ int _tmain( int argc, _TCHAR* argv[] )
 										total_speak_count++;
 										cv::circle(judge_img, cv::Point(125, 250), renormalized_energy*110, cv::Scalar(0,0,200), -1, CV_AA);//Red
 										//audioFile2.Write( &audioBuffer[0], subFrameLengthInBytes );
-										send_UDP(count_b, 2, 2);
+										send_UDP(count_b, 1, 2, total_speak_count);
 									}
 								}
 
@@ -802,9 +806,9 @@ int _tmain( int argc, _TCHAR* argv[] )
 										outputfileAudio << renormalized_energy << std::endl;
 										total_energy_count += renormalized_energy;
 										float average_energy = (float)total_energy_count / (float)total_speak_count;
-										//send_UDP(renormalized_energy, 1);
+										//send_UDP(renormalized_energy, 1, 0, 0);
 										std::cout << "Average Energy: " << average_energy << std::endl;
-										//send_UDP(average_energy, 1);
+										//send_UDP(average_energy, 1, 0, 0);
 										
 										if (renormalized_energy > 0.8){
 											std::cout << "Energy is : " << renormalized_energy << std::endl;
