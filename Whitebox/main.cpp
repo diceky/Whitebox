@@ -278,12 +278,12 @@ int _tmain( int argc, _TCHAR* argv[] )
 
 	// Color Table
 	cv::Vec3b color[BODY_COUNT];
-	color[0] = cv::Vec3b( 255,   0,   0 );
-	color[1] = cv::Vec3b(   0, 255,   0 );
-	color[2] = cv::Vec3b(   0,   0, 255 );
-	color[3] = cv::Vec3b( 255, 255,   0 );
-	color[4] = cv::Vec3b( 255,   0, 255 );
-	color[5] = cv::Vec3b(   0, 255, 255 );
+	color[0] = cv::Vec3b( 255,   0,   0 );//BLUE
+	color[1] = cv::Vec3b(   0, 255,   0 );//GREEN
+	color[2] = cv::Vec3b(   0,   0, 255 );//RED
+	color[3] = cv::Vec3b( 255, 255,   0 );//CYAN
+	color[4] = cv::Vec3b( 255,   0, 255 );//MAGENTA
+	color[5] = cv::Vec3b(   0, 255, 255 );//YELLOW
 
 	cv::Scalar color_opencv[BODY_COUNT];
 	color_opencv[0] = cv::Scalar( 255,   0,   0 );
