@@ -69,8 +69,8 @@ int flag_soc = 0;
 		memset((char *)&sin, 0, sizeof(sin));
 		sin.sin_family = AF_INET;
 		//sin.sin_addr.s_addr = inet_addr("127.0.0.1");  //send UDP to localhost Unity
-		sin.sin_addr.s_addr = inet_addr("131.113.136.249"); //send UDP to remote Unity
-		//sin.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
+		sin.sin_addr.s_addr = inet_addr("131.113.137.118"); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
+		//sin.sin_addr.s_addr = inet_addr("131.113.136.114"); //send UDP to Arduino
 		sin.sin_port = htons(port);
 
 
@@ -78,10 +78,10 @@ int flag_soc = 0;
 		memset((char *)&sin2, 0, sizeof(sin2));
 		sin2.sin_family = AF_INET;
 		//sin2.sin_addr.s_addr = inet_addr("127.0.0.1");  //send localhost UDP to Unity
-		sin2.sin_addr.s_addr = inet_addr("131.113.136.249"); //send UDP to remote Unity
-		sin2.sin_port = htons(54242);//send UDP to remote Unity
-		//sin2.sin_addr.s_addr = inet_addr("131.113.137.92"); //send UDP to Arduino
-		//sin2.sin_port = htons(8888);//send UDP to Arduino
+		sin2.sin_addr.s_addr = inet_addr("131.113.137.118"); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
+		//sin2.sin_port = htons(50374);//send UDP to remote Unity
+		//sin2.sin_addr.s_addr = inet_addr("131.113.136.114"); //send UDP to Arduino
+		sin2.sin_port = htons(8888);//send UDP to Arduino
 		bind(s, (struct sockaddr*)&sin2, sizeof(sin2));
 		return s;
 	}
@@ -106,8 +106,8 @@ int flag_soc = 0;
 		if (flag_soc == 0) {
 			InitSockets();
 			//s = ConnectTo("127.0.0.1", 7777, g_sin);  //send UDP to localhost Unity
-			s = ConnectTo("131.113.136.249", 54242, g_sin);  //send UDP to remote Unity
-			//s = ConnectTo("131.113.137.92", 8888, g_sin); //send UDP to Arduino
+			s = ConnectTo("131.113.137.118", 50374, g_sin);  //send UDP to remote Unity, should match with Macbook Pro's Wifi IP!!
+			//s = ConnectTo("131.113.136.114", 8888, g_sin); //send UDP to Arduino
 			flag_soc = 1;
 			if (s == SOCKET_ERROR)
 			{
@@ -580,11 +580,13 @@ int _tmain( int argc, _TCHAR* argv[] )
 						if( SUCCEEDED( hResult ) ){
 							if(myIndex==2){
 								std::cout << "A "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
-								send_UDP(abs(amount.Y),1,3,0);
+								//send_UDP(abs(amount.Y),1,3,0);
+								send_UDP(abs(amount.Y),3,3,0);//for DEMO
 							}
 							else if(myIndex==1){
 								std::cout << "B "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
-								send_UDP(abs(amount.Y),2,3,0);
+								//send_UDP(abs(amount.Y),2,3,0);
+								send_UDP(abs(amount.Y),3,3,0);//for DEMO
 							}
 							outputfileBody << ","<< amount.X << "," << amount.Y << std::endl;
 						}
@@ -743,8 +745,28 @@ int _tmain( int argc, _TCHAR* argv[] )
 								cv::rectangle(judge_img, cv::Point(0,0), cv::Point(500, 500), cv::Scalar(0,0,0), -1, CV_AA);
 								cv::rectangle(rate_img, cv::Point(0,0), cv::Point(500, 500), cv::Scalar(0,0,0), -1, CV_AA);
 
-								if(confidence > 0.3f){
-									if(angle * 180.0f / M_PI > 5){
+								// Loop over audio data bytesÅc
+								for (int i = 0; i < audioBuffer.size(); i += stride)
+								{
+									memcpy(&sq, &audioBuffer[i], sizeof(float));
+									sum += sq * sq;
+									sampleCounter++;
+									if (sampleCounter < 40){continue;}
+									// Convert to dB
+									energy = (float) (10.0 * log10(sum / sampleCounter));
+									renormalized_energy = (-90 - energy) / -90;
+									if(renormalized_energy > 1.0) renormalized_energy = 1.0;
+									if(renormalized_energy <= 0) renormalized_energy = 0.0;
+									sampleCounter = sum = 0;
+									total_energy_count += renormalized_energy;
+									float average_energy = (float)total_energy_count / (float)total_speak_count;
+									//send_UDP(renormalized_energy, 1, 0, 0);
+									//std::cout << "Average Energy: " << average_energy << std::endl;
+									//send_UDP(average_energy, 1, 0, 0);
+								}
+
+								if(confidence > 0.3f && renormalized_energy > 0.8){
+									if(angle * 180.0f / M_PI <- 5){
 										/*timestamp*/
 										time_t now3 = time(NULL);
 										struct tm pnow3;
@@ -755,13 +777,14 @@ int _tmain( int argc, _TCHAR* argv[] )
 										volume_flag = 1;
 										std::cout << "A is speaking" << std::endl;
 										outputfileAudio << "A,";
+										outputfileAudio << renormalized_energy << std::endl;
 										count_a++;
 										total_speak_count++;
-										cv::circle(judge_img, cv::Point(375, 250), renormalized_energy*110, cv::Scalar(0,200,0), -1, CV_AA);//Green
+										cv::circle(judge_img, cv::Point(125, 250), renormalized_energy*110, cv::Scalar(0,0,200), -1, CV_AA);//Red
 										//audioFile.Write( &audioBuffer[0], subFrameLengthInBytes );
-										send_UDP(count_a, 2, 2, total_speak_count);
+										send_UDP(count_a, 1, 2, total_speak_count);
 									}
-									else if(angle * 180.0f / M_PI < -5){
+									else if(angle * 180.0f / M_PI > 5){
 										/*timestamp*/
 										time_t now4 = time(NULL);
 										struct tm pnow4;
@@ -772,11 +795,12 @@ int _tmain( int argc, _TCHAR* argv[] )
 										volume_flag = 2;
 										std::cout << "B is speaking" << std::endl;
 										outputfileAudio << "B,";
+										outputfileAudio << renormalized_energy << std::endl;
 										count_b++;
 										total_speak_count++;
-										cv::circle(judge_img, cv::Point(125, 250), renormalized_energy*110, cv::Scalar(0,0,200), -1, CV_AA);//Red
+										cv::circle(judge_img, cv::Point(375, 250), renormalized_energy*110, cv::Scalar(0,200,0), -1, CV_AA);//Green
 										//audioFile2.Write( &audioBuffer[0], subFrameLengthInBytes );
-										send_UDP(count_b, 1, 2, total_speak_count);
+										send_UDP(count_b, 2, 2, total_speak_count);
 									}
 								}
 
@@ -785,38 +809,8 @@ int _tmain( int argc, _TCHAR* argv[] )
 									rate_a = (float)count_a / (float)total_speak_count;
 									rate_b = (float)count_b / (float)total_speak_count;
 									std::cout << "rate_a: " << rate_a << " " << "rate_b: " << rate_b << std::endl;
-									cv::rectangle(rate_img, cv::Point(300,100+((1-rate_a)*300)), cv::Point(400, 400), cv::Scalar(0,200,0), -1, CV_AA);//Green
-									cv::rectangle(rate_img, cv::Point(100,100+((1-rate_b)*300)), cv::Point(200, 400), cv::Scalar(0,0,200), -1, CV_AA);//Red
-								}
-								
-								if(volume_flag > 0){
-									// Loop over audio data bytesÅc
-									for (int i = 0; i < audioBuffer.size(); i += stride)
-									{
-										memcpy(&sq, &audioBuffer[i], sizeof(float));
-										sum += sq * sq;
-										sampleCounter++;
-										if (sampleCounter < 40){continue;}
-										// Convert to dB
-										energy = (float) (10.0 * log10(sum / sampleCounter));
-										renormalized_energy = (-90 - energy) / -90;
-										if(renormalized_energy > 1.0) renormalized_energy = 1.0;
-										if(renormalized_energy <= 0) renormalized_energy = 0.0;
-										sampleCounter = sum = 0;
-										outputfileAudio << renormalized_energy << std::endl;
-										total_energy_count += renormalized_energy;
-										float average_energy = (float)total_energy_count / (float)total_speak_count;
-										//send_UDP(renormalized_energy, 1, 0, 0);
-										std::cout << "Average Energy: " << average_energy << std::endl;
-										//send_UDP(average_energy, 1, 0, 0);
-										
-										if (renormalized_energy > 0.8){
-											std::cout << "Energy is : " << renormalized_energy << std::endl;
-											break;
-										}
-										
-
-									}
+									cv::rectangle(rate_img, cv::Point(300,100+((1-rate_b)*300)), cv::Point(400, 400), cv::Scalar(0,200,0), -1, CV_AA);//Green
+									cv::rectangle(rate_img, cv::Point(100,100+((1-rate_a)*300)), cv::Point(200, 400), cv::Scalar(0,0,200), -1, CV_AA);//Red
 								}
 								
 								volume_flag = 0;
