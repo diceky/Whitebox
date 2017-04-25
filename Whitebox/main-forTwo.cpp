@@ -45,6 +45,7 @@ inline void ExtractFaceRotationInDegrees( const Vector4* pQuaternion, int* pPitc
 
 int wind;
 int flag_soc = 0;
+char ip_destination[30] = "131.113.137.49";	/*SET UDP DESTINATION ADDRESS HERE*/
 
 	bool InitSockets()
 	{
@@ -69,8 +70,8 @@ int flag_soc = 0;
 		memset((char *)&sin, 0, sizeof(sin));
 		sin.sin_family = AF_INET;
 		//sin.sin_addr.s_addr = inet_addr("127.0.0.1");  //send UDP to localhost Unity
-		sin.sin_addr.s_addr = inet_addr("131.113.137.118"); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
-		//sin.sin_addr.s_addr = inet_addr("131.113.136.114"); //send UDP to Arduino
+		//sin.sin_addr.s_addr = inet_addr(ip_destination); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
+		sin.sin_addr.s_addr = inet_addr(ip_destination); //send UDP to Arduino
 		sin.sin_port = htons(port);
 
 
@@ -78,9 +79,9 @@ int flag_soc = 0;
 		memset((char *)&sin2, 0, sizeof(sin2));
 		sin2.sin_family = AF_INET;
 		//sin2.sin_addr.s_addr = inet_addr("127.0.0.1");  //send localhost UDP to Unity
-		sin2.sin_addr.s_addr = inet_addr("131.113.137.118"); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
+		//sin2.sin_addr.s_addr = inet_addr(ip_destination); //send UDP to remote Unity, should match with remote machine's Wifi IP!!
 		//sin2.sin_port = htons(50374);//send UDP to remote Unity
-		//sin2.sin_addr.s_addr = inet_addr("131.113.136.114"); //send UDP to Arduino
+		sin2.sin_addr.s_addr = inet_addr(ip_destination); //send UDP to Arduino
 		sin2.sin_port = htons(8888);//send UDP to Arduino
 		bind(s, (struct sockaddr*)&sin2, sizeof(sin2));
 		return s;
@@ -106,8 +107,8 @@ int flag_soc = 0;
 		if (flag_soc == 0) {
 			InitSockets();
 			//s = ConnectTo("127.0.0.1", 7777, g_sin);  //send UDP to localhost Unity
-			s = ConnectTo("131.113.137.118", 50374, g_sin);  //send UDP to remote Unity, should match with Macbook Pro's Wifi IP!!
-			//s = ConnectTo("131.113.136.114", 8888, g_sin); //send UDP to Arduino
+			//s = ConnectTo(ip_destination, 50374, g_sin);  //send UDP to remote Unity, should match with Macbook Pro's Wifi IP!!
+			s = ConnectTo(ip_destination, 8888, g_sin); //send UDP to Arduino
 			flag_soc = 1;
 			if (s == SOCKET_ERROR)
 			{
@@ -581,12 +582,12 @@ int _tmain( int argc, _TCHAR* argv[] )
 							if(myIndex==2){
 								std::cout << "A "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
 								//send_UDP(abs(amount.Y),1,3,0);
-								send_UDP(abs(amount.Y),3,3,0);//for DEMO
+								//send_UDP(abs(amount.Y),3,3,0);//for DEMO
 							}
 							else if(myIndex==1){
 								std::cout << "B "<< "leanX : " << amount.X << ",leanY : " << amount.Y << std::endl;
 								//send_UDP(abs(amount.Y),2,3,0);
-								send_UDP(abs(amount.Y),3,3,0);//for DEMO
+								//send_UDP(abs(amount.Y),3,3,0);//for DEMO
 							}
 							outputfileBody << ","<< amount.X << "," << amount.Y << std::endl;
 						}
